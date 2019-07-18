@@ -35,6 +35,7 @@ lsb_release -a
 ```
 
 Once you are done exploring, exit out.
+
 ```bash
 $ exit
 exit
@@ -54,6 +55,7 @@ cat << EOF > submit.sl
 srun -N 1 shifter /app/app.py
 EOF
 ```
+
 Use the Slurm sbatch command to submit the script.
 
 ```bash
@@ -78,7 +80,7 @@ shifterimg pull <mydockerid>/hellompi:latest
 #Wait for it to complete
 salloc -N 2 -C haswell -q interactive --image <mydockerid>/hellompi:latest
 # Wait for prepare_compilation_report
-# Cori has 32 physical cores per node with 2 hyper-threads per core.  
+# Cori has 32 physical cores per node with 2 hyper-threads per core.
 # So you can run up to 64 tasks per node.
 srun -N 2 -n 128 shifter /app/hello
 exit

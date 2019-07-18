@@ -120,12 +120,17 @@ ADD helloworld.c /app/
 RUN cd /app && mpicc helloworld.c -o /app/hello
 ```
 
+Now we build the image
+
+```bash
 docker build -t mydockerid/hellompi:latest .
 
-docker push mydockerid/hellompi:latest
+docker push <mydockerid>/hellompi:latest
+```
 
 Log into the image and run the app:
 
+```bash
 docker run -it mydockerid/hellompi:latest
 
 root@982d980864e5:/# mpirun -n 10 /app/hello
@@ -148,5 +153,6 @@ hello from 0 of 10 on 982d980864e5
 hello from 6 of 10 on 982d980864e5
 
 hello from 1 of 10 on 982d980864e5
+```
 
 </p></details>

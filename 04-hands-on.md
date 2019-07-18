@@ -39,7 +39,7 @@ The 'pull' command allows you to download or build a container from a given URI.
 
 This tutorial focuses on the Sylabs Cloud library, so we will use the library URI to retrieve our image.
 
-My `lolcow` image is at https://cloud.sylabs.io/library/_container/5b9e91c694feb900016ea40b , you can go there to download the image from a UI environment or via CLI
+My `lolcow` image is at <https://cloud.sylabs.io/library/_container/5b9e91c694feb900016ea40b> , you can go there to download the image from a UI environment or via CLI
 
 ```bash
 # Pull with Singularity
@@ -136,7 +136,7 @@ Now we are going to use the `verify` comand. The verify command allows a user to
 eduardo@linux> singularity verify lolcow.sif
 Verifying image: lolcow.sif
 Data integrity checked, authentic and signed by:
-	eduardo arango (oss all the things) <eduardo@sylabs.io>, KeyID XXXXXXXXXXXXXXXX
+     eduardo arango (oss all the things) <eduardo@sylabs.io>, KeyID XXXXXXXXXXXXXXXX
 ```
 
 That's my cow!
