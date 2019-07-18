@@ -1,7 +1,7 @@
 
 # Getting Started with Containers on HPC
 
-View this on [GitHub Pages](https://ecpcontainers.github.io/isc19-tutorial/).
+View this on [GitHub Pages](https://ecpcontainers.github.io/sc19-tutorial/).
 
 ## ECP Supercontainers Tutorial Session
 
@@ -11,15 +11,15 @@ View this on [GitHub Pages](https://ecpcontainers.github.io/isc19-tutorial/).
 
 Half-day Tutorial Session
 
-Venue: International Supercomputing Conference 2019 (ISC19')
+Venue: Supercomputing Conference 2019 (SC19')
 
-Date: June 16th, 2019
+Date: Sunday, 17 November 20191:30pm - 5pm
 
-Room: Monte Rosa 1,2
+Room: 201
 
-Location: Frankfurt, DE
+Location: Denver, CO, USA
 
-Link: [Getting Started with Containers on HPC @ ISC19](https://2019.isc-program.com/presentation/?id=tut148&sess=sess127)
+Link: [Container Computing for HPC and Scientific Workflows @ SC19](https://sc19.supercomputing.org/presentation/?id=tut129&sess=sess206)
 
 Topic Area: Programming Models & Systems Software
 
@@ -27,9 +27,7 @@ Keywords: Containerized HPC, System Software and Runtime Systems, Scientific Sof
 
 ## Abstract
 
-Within just the past few years, the use of containers has revolutionized the way in which industries and enterprises have developed and deployed computational software and distributed systems. The containerization model is gaining traction within the HPC community as well with the promise of improved reliability, reproducibility, and levels customization that are not otherwise possible on supercomputers previously. From the onset of containerization in HPC, Singularity has lead the way in providing container services, ranging from small clusters to entire supercomputers.
-
-This hands-on tutorial looks to train users on the usability of containers on HPC resources. Specifically, the tutorial will walk through the processes of creating, deploying, and running Singularity containers on a Linux cluster. We will provide a detailed background on Linux containers, along with introductory hands-on experience building and running containers on a cluster. Furthermore, the tutorial will provide more advanced information on how to run MPI-based HPC applications as well as cutting-edge machine learning frameworks. Users will leave the tutorial with a solid foundational understanding of how to utilize containers with HPC resources through Singularity, as well as an in-depth knowledge to deploy custom containers on their own resources.
+Container computing has revolutionized the way applications are developed and delivered. It offers opportunities that never existed before for significantly improving efficiency of scientific workflows and easily moving these workflows from the laptop to the supercomputer. Tools like Docker, Shifter, Singularity and Charliecloud enable a new paradigm for scientific and technical computing. However, to fully unlock its potential, users and administrators need to understand how to utilize these new approaches. This tutorial will introduce attendees to the basics of creating container images, explain best practices, and cover more advanced topics such as creating images to be run on HPC platforms using various container runtimes. The tutorial will also explain how research scientists can utilize container-based computing to accelerate their research and how these tools can boost the impact of their research by enabling better reproducibility and sharing of their scientific process without compromising security. This is an updated version of the highly successful tutorial presented at SC16, SC17, SC18. It was attended by more than 100 people each year. The 2018 tutorial was very highly rated with 2.8 / 3 stars for “would recommend” and 4.3 / 5 stars for overall quality.
 
 ## Prerequisites
 
@@ -44,18 +42,17 @@ After the tutorial, you can boot our tutorial image yourself on Amazon EC2 to ru
 US-West-Oregon: ami-015dd4732dbcdbf3f
 EU-Frankfurt:   ami-00a1a6ca3c570c48c
 
-
 ### Optional Prerequisites
 
-Users can also install Docker and Singularity prior to attending the tutorial session. Here, it may be beneficial to create a docker account in advance at https://cloud.docker.com/. This account will be needed to create images on docker cloud and dockerhub.
+Users can also install Docker and Singularity prior to attending the tutorial session. Here, it may be beneficial to create a docker and sylabs (singularity) account in advance at https://cloud.docker.com/ and https://cloud.sylabs.io/ This accounts will be needed to create images on docker cloud/dockerhub and sylabs cloud.
 
-[Install Singularity on Linux](https://www.sylabs.io/guides/3.2/user-guide/quick_start.html#quick-installation-steps)
+[Install Singularity on Linux](https://sylabs.io/guides/3.3/user-guide/)
 
 [Install Singualrity on Mac](https://repo.sylabs.io/desktop/) (Alpha)
 
 [Install Docker for Desktop](https://www.docker.com/products/docker-desktop)
 
-## Questions:
+## Questions
 
 You can ask questions verbally or with this [Google Doc](https://docs.google.com/document/d/11gMZ-T7iA5XiRWPLYIqX7Gqv7RMb-NF9kzGYHrnOi04/edit?usp=sharing).
 Please append your question below the others in the document.
@@ -64,23 +61,20 @@ We have also created a Slack Team for this.  The invitation link is [here](https
 
 ## Schedule
 
-14:01 - 14:30 [Introduction to Containers in HPC](slides/isc19_intro_to_containers_ajy.pdf) (Younge)
+TDB
 
-14:30 - 15:00 [How to build your first Docker container](/01-hands-on.md) (Canon)
+TDB [Introduction to Containers in HPC](slides/isc19_intro_to_containers_ajy.pdf) (Younge)
 
-15:00 - 15:30 [How to deploy a container on a supercomputer with Shifter](/02-hands-on.md)(Canon)
+TDB [How to build your first Docker container](/01-hands-on.md) (Canon)
 
-15:30 - 16:00 -- Break --
+TDB [How to deploy a container on a supercomputer with Shifter](/02-hands-on.md)(Canon)
 
-16:00 - 16:30 [How to build a Singularity container image](/03-hands-on.md)(Arango)
+TDB -- Break --
 
-16:30 - 17:00 [Running Singularity on a supercomputer and advanced features](/04-hands-on.md)(Arango)
+TDB [How to build a Singularity container image](/03-hands-on.md)(Arango)
 
-17:00 - 17:30 [Example: Running an HPC app on the E4S container](slides/E4S_ISC19.pdf) (Shende)
+TDB [Running Singularity on a supercomputer and advanced features](/04-hands-on.md)(Arango)
 
-17:30 - 18:00 Success Stories and Summary (Canon)
+TDB [Example: Running an HPC app on the E4S container](slides/E4S_ISC19.pdf) (Shende)
 
-
-
-<img src="images/ec2_1.png" width="400">
-<img src="images/ec2_2.png" width="400">
+TDB Success Stories and Summary (Canon)
