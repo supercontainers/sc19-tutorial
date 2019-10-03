@@ -13,7 +13,7 @@ Half-day Tutorial Session
 
 Venue: Supercomputing Conference 2019 (SC19')
 
-Date: Sunday, 17 November 20191:30pm - 5pm
+Date: Sunday, 17 November 2019 1:30pm - 5pm
 
 Room: 201
 
