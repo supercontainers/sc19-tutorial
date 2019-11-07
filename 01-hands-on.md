@@ -107,7 +107,6 @@ Hints:
 
 <details>
   <summary>Expand to see the answer</summary>
-  <p>
 
 Dockerfile:
 
@@ -155,4 +154,4 @@ hello from 6 of 10 on 982d980864e5
 hello from 1 of 10 on 982d980864e5
 ```
 
-</p></details>
+</details>
