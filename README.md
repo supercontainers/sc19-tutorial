@@ -27,11 +27,13 @@ Keywords: Containerized HPC, System Software and Runtime Systems, Scientific Sof
 
 ## Abstract
 
-Container computing has revolutionized the way applications are developed and delivered. It offers opportunities that never existed before for significantly improving efficiency of scientific workflows and easily moving these workflows from the laptop to the supercomputer. Tools like Docker, Shifter, Singularity and Charliecloud enable a new paradigm for scientific and technical computing. However, to fully unlock its potential, users and administrators need to understand how to utilize these new approaches. This tutorial will introduce attendees to the basics of creating container images, explain best practices, and cover more advanced topics such as creating images to be run on HPC platforms using various container runtimes. The tutorial will also explain how research scientists can utilize container-based computing to accelerate their research and how these tools can boost the impact of their research by enabling better reproducibility and sharing of their scientific process without compromising security. This is an updated version of the highly successful tutorial presented at SC16, SC17, SC18. It was attended by more than 100 people each year. The 2018 tutorial was very highly rated with 2.8 / 3 stars for “would recommend” and 4.3 / 5 stars for overall quality.
+Container computing has revolutionized the way applications are developed and delivered. It offers opportunities that never existed before for significantly improving efficiency of scientific workflows and easily moving these workflows from the laptop to the supercomputer. Tools like Docker, Shifter, Singularity and Charliecloud enable a new paradigm for scientific and technical computing. However, to fully unlock its potential, users and administrators need to understand how to utilize these new approaches. This tutorial will introduce attendees to the basics of creating container images, explain best practices, and cover more advanced topics such as creating images to be run on HPC platforms using various container runtimes. The tutorial will also explain how research scientists can utilize container-based computing to accelerate their research and how these tools can boost the impact of their research by enabling better reproducibility and sharing of their scientific process without compromising security. 
+
+This is an updated version of the highly successful tutorial presented at SC16, SC17, SC18. It was attended by more than 100 people each year. The 2018 tutorial was very highly rated with 2.8 / 3 stars for “would recommend” and 4.3 / 5 stars for overall quality.
 
 ## Prerequisites
 
-This is a hands-on tutorial. Participants should bring a laptop and load or pre-install a terminal and/or ssh client in advance to make best use of time during the tutorial.  We will be providing test user accounts to both pre-configured EC2 instances as well as the Cori Supercomputer at NERSC.
+This is a hands-on tutorial. Participants should bring a laptop and load or pre-install a terminal and/or ssh client in advance to make best use of time during the tutorial.  We will be providing training user accounts to both pre-configured EC2 instances as well as the Cori Supercomputer at NERSC.
 
 <div style="text-align:center"><img src="images/AWS_logo.png" width="250"></div>
 
@@ -40,7 +42,7 @@ This tutorial is supported by the Amazon AWS Machine Learning Research Awards. E
 After the tutorial, you can boot our tutorial image yourself on Amazon EC2 to run through the tutorial again. We recommend you use your own EC2 key and change the password.
 
 US-West-Oregon: ami-015dd4732dbcdbf3f
-EU-Frankfurt:   ami-00a1a6ca3c570c48c
+
 
 ### Optional Prerequisites
 
@@ -57,24 +59,28 @@ Users can also install Docker and Singularity prior to attending the tutorial se
 You can ask questions verbally or with this [Google Doc](https://docs.google.com/document/d/11gMZ-T7iA5XiRWPLYIqX7Gqv7RMb-NF9kzGYHrnOi04/edit?usp=sharing).
 Please append your question below the others in the document.
 
-We have also created a Slack Team for this.  The invitation link is [here](https://join.slack.com/t/hpc-containers/shared_invite/enQtNjU1MTIyNTE3NDI2LTMwMzZiYjZmMjhlODcwMTViYmQ4ZTQxZmUwMzE1MTYxZWZiOGM0NTYyMjI2NjI2OWNkYzM2YjY3ZWI0OTY3NzY).
+We have also created a Slack Team for this.  The invitation link is [here](https://join.slack.com/t/hpc-containers/shared_invite/enQtODI3NzY1NDU4OTk5LTUxOTgyOWJmYjIwOWI5YWU2MzBhZDI3Zjc1YmZmMjAxZjgzYzk4ZWEwNmFlNzlkOWI0MGNlZDNlMTBhYTBlOWY).
 
 ## Schedule
 
-TDB
 
-TDB [Introduction to Containers in HPC](slides/isc19_intro_to_containers_ajy.pdf) (Younge)
+13:30 – 13:45 [Introduction to Containers in HPC](slides/sc19_intro_to_containers_ajy.pdf) (Younge)
 
-TDB [How to build your first Docker container](/01-hands-on.md) (Canon)
+13:45 – 14:15 [How to build your first Docker container](/01-hands-on.md) (Canon)
 
-TDB [How to deploy a container on a supercomputer with Shifter](/02-hands-on.md)(Canon)
+14:15 – 14:45 [How to deploy a container on a supercomputer](/02-hands-on.md)( (Canon)
 
-TDB -- Break --
+14:45 – 15:00 [Best Practices](slides/sc19_tut_bestpract.pdf) (Canon)
 
-TDB [How to build a Singularity container image](/03-hands-on.md)(Arango)
+15:00 – 15:30              -- Break –
 
-TDB [Running Singularity on a supercomputer and advanced features](/04-hands-on.md)(Arango)
+15:30 – 16:00 [Running an HPC app on the E4S container](slides/E4S_SC19.pdf) (Shende)
 
-TDB [Example: Running an HPC app on the E4S container](slides/E4S_ISC19.pdf) (Shende)
+16:00 - 16:30 [How to build a Singularity container image](/03-hands-on.md)(Arango)
 
-TDB Success Stories and Summary (Canon)
+16:30 - 16:50 [Running Singularity on a supercomputer & adv features](/04-hands-on.md) (Arango)
+
+16:50 - 17:00 [Success Stories & Summary](slides/sc19_tut_summary.pdf) (Canon)
+
+
+
