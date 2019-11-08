@@ -15,7 +15,7 @@ Venue: Supercomputing Conference 2019 (SC19')
 
 Date: Sunday, 17 November 2019 1:30pm - 5pm
 
-Room: 201
+Room: 207
 
 Location: Denver, CO, USA
 
@@ -64,7 +64,7 @@ We have also created a Slack Team for this.  The invitation link is [here](https
 ## Schedule
 
 
-13:30 – 13:45 [Introduction to Containers in HPC](slides/sc19_intro_to_containers_ajy.pdf) (Younge)
+13:30 – 13:45 [Introduction to Containers in HPC](slides/sc19_tutorial_intro.pdf) (Younge)
 
 13:45 – 14:15 [How to build your first Docker container](/01-hands-on.md) (Canon)
 
