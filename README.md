@@ -68,9 +68,9 @@ We have also created a Slack Team for this.  The invitation link is [here](https
 
 13:45 – 14:15 [How to build your first Docker container](/01-hands-on.md) (Canon)
 
-14:15 – 14:45 [How to deploy a container on a supercomputer](/02-hands-on.md)( (Canon)
+14:15 – 14:45 [How to deploy a container on a supercomputer](/02-hands-on.md) (Canon)
 
-14:45 – 15:00 [Best Practices](slides/sc19_tut_bestpract.pdf) (Canon)
+14:45 – 15:00 [Best Practices](slides/sc19_tutorial_bestpract.pdf) (Canon)
 
 15:00 – 15:30              -- Break –
 
