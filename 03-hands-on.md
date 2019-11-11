@@ -13,8 +13,8 @@ The Singularity source code contains several example definition files in the `/e
 **Note:** You need to build containers on a file system where the sudo command can write files as root. This may not work in an HPC cluster setting if your home directory resides on a shared file server. If that's the case you may have to to `cd` to a local hard disk such as `/tmp`.
 
 ```bash
-mkdir ../app
-cd app
+mkdir /sc19-tutorial
+cd sc19-tutorial
 vim ubuntu-mpi.def
 ```
 
@@ -30,17 +30,21 @@ From: nersc/ubuntu-mpi:14.04
 
 See the [Singularity docs](https://www.sylabs.io/guides/3.4/user-guide/definition_files.html) for an explanation of each of these sections.
 
+Singularity can build containers in several different file formats. The default is to build a [SIF](https://github.com/sylabs/sif) image. SIF is an open source implementation of the Singularity Container Image Format that makes it easy to create complete and encapsulated container enviroments stored in a single file.
+
 Now let's use this recipe file as a starting point to build our `ubuntu_mpi.sif` container. Note that the build command requires `sudo` privileges, when used in combination with a recipe file.
+
+```bash
+sudo singularity build ubuntu-mpi.sif ubuntu-mpi.def
+```
+
+But if you want to shell into a container and tinker with it (like we will do here), you should build a sandbox (which is really just a file system under a foler directory).  This is great when you are still developing your container and don't yet know what should be included in the recipe file.
 
 ```bash
 sudo singularity build --sandbox ubuntu_sandbox ubuntu-mpi.def
 ```
 
 The `--sandbox` option in the command above tells Singularity that we want to build a special type of image (File system) for development purposes.
-
-Singularity can build containers in several different file formats. The default is to build a [SIF](https://github.com/sylabs/sif) image. SIF is an open source implementation of the Singularity Container Image Format that makes it easy to create complete and encapsulated container enviroments stored in a single file.
-
-But if you want to shell into a container and tinker with it (like we will do here), you should build a sandbox (which is really just a file system under a foler directory).  This is great when you are still developing your container and don't yet know what should be included in the recipe file.
 
 When your build finishes, you will have a basic Ubuntu + mpi installed container saved in a local directory called `ubuntu_mpi`.
 
@@ -90,8 +94,8 @@ BootStrap: docker
 From: nersc/ubuntu-mpi:14.04
 
 %post
-    mkdir -p /app
-    cd /app
+    mkdir -p /sc19-tutorial
+    cd /sc19-tutorial
 
     cat <<EOF >helloworld.c
     // Hello World MPI app
@@ -118,7 +122,7 @@ From: nersc/ubuntu-mpi:14.04
     }
 EOF
 
-   mpicc helloworld.c -o /app/hello
+   mpicc helloworld.c -o /sc19-tutorial/hello
 
 ```
 
@@ -138,8 +142,8 @@ BootStrap: docker
 From: nersc/ubuntu-mpi:14.04
 
 %post
-    mkdir -p /app
-    cd /app
+    mkdir -p /sc19-tutorial
+    cd /sc19-tutorial
 
     cat <<EOF >helloworld.c
     // Hello World MPI app
@@ -166,12 +170,12 @@ From: nersc/ubuntu-mpi:14.04
     }
 EOF
 
-   mpicc helloworld.c -o /app/hello
+   mpicc helloworld.c -o /sc19-tutorial/hello
 ```
 
 Now let's run our container! 
 
 ```bash
-singularity exec hellompi.sif /app/hello
+singularity exec hellompi.sif /sc19-tutorial/hello
 hello from 0 of 1 on Eduardos-MacBook-Pro.local
 ```
