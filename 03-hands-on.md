@@ -13,33 +13,27 @@ The Singularity source code contains several example definition files in the `/e
 **Note:** You need to build containers on a file system where the sudo command can write files as root. This may not work in an HPC cluster setting if your home directory resides on a shared file server. If that's the case you may have to to `cd` to a local hard disk such as `/tmp`.
 
 ```bash
-mkdir ../lolcow
-cp examples/ubuntu/Singularity ../lolcow/
-cd ../lolcow
-vim Singularity
+mkdir ../app
+cd app
+vim ubuntu-mpi.def
 ```
 
-It should look something like this:
+Using your prefered IDE, build a file, should look something like this:
 
 ```bash
-BootStrap: library
-From: ubuntu:16.04
+BootStrap: docker
+From: nersc/ubuntu-mpi:14.04
 
 %runscript
     echo "This is what happens when you run the container..."
-
-%post
-    echo "Hello from inside the container"
-    apt-get -y install vim
-
 ```
 
-See the [Singularity docs](https://www.sylabs.io/guides/3.0/user-guide/definition_files.html) for an explanation of each of these sections.
+See the [Singularity docs](https://www.sylabs.io/guides/3.4/user-guide/definition_files.html) for an explanation of each of these sections.
 
-Now let's use this recipe file as a starting point to build our `lolcow.img` container. Note that the build command requires `sudo` privileges, when used in combination with a recipe file.
+Now let's use this recipe file as a starting point to build our `ubuntu_mpi.sif` container. Note that the build command requires `sudo` privileges, when used in combination with a recipe file.
 
 ```bash
-sudo singularity build --sandbox lolcow Singularity
+sudo singularity build --sandbox ubuntu_sandbox ubuntu-mpi.def
 ```
 
 The `--sandbox` option in the command above tells Singularity that we want to build a special type of image (File system) for development purposes.
@@ -48,26 +42,26 @@ Singularity can build containers in several different file formats. The default 
 
 But if you want to shell into a container and tinker with it (like we will do here), you should build a sandbox (which is really just a file system under a foler directory).  This is great when you are still developing your container and don't yet know what should be included in the recipe file.
 
-When your build finishes, you will have a basic Ubuntu container saved in a local directory called `lolcow`.
+When your build finishes, you will have a basic Ubuntu + mpi installed container saved in a local directory called `ubuntu_mpi`.
 
 ### Using `shell` to explore and modify containers
 
 Now let's enter our new container and look around.
 
 ```bash
-singularity shell lolcow
+singularity shell ubuntu_mpi.sif
 ```
 
 Depending on the environment on your host system you may see your prompt change. Let's look at what OS is running inside the container.
 
 ```bash
-Singularity lolcow:~> cat /etc/os-release
+Singularity ubuntu_mpi:~> cat /etc/os-release
 NAME="Ubuntu"
-VERSION="16.04, Xenial"
+VERSION="14.04.4 LTS, Trusty Tahr"
 ID=ubuntu
 ID_LIKE=debian
-PRETTY_NAME="Ubuntu 16.04 LTS"
-VERSION_ID="16.04"
+PRETTY_NAME="Ubuntu 14.04.4 LTS"
+VERSION_ID="14.04"
 HOME_URL="http://www.ubuntu.com/"
 SUPPORT_URL="http://help.ubuntu.com/"
 BUG_REPORT_URL="http://bugs.launchpad.net/ubuntu/"
@@ -78,212 +72,106 @@ No matter what OS is running on your host, your container is running Ubuntu 14.0
 Let's try a few more commands:
 
 ```bash
-$ singularity lolcow:~> whoami
+$ singularity ubuntu_mpi:~> whoami
 eduardo
 
-$ singularity lolcow:~> hostname
+$ singularity ubuntu_mpi:~> hostname
 eduardo-laptop
 ```
 
-This is one of the core features of Singularity that makes it so attractive from a security standpoint.  The user remains the same inside and outside of the container.
+Now let's compile a MPI bin and create a MPI ready container
 
-Let's try installing some software. For building lolcow we first need the programs `fortune`, `cowsay`, and `lolcat` to produce the container that we saw in the first demo.
+Using your favorite text editor create a new file
 
-```bash
-Singularity lolcow:~> sudo apt-get update && sudo apt-get -y install fortune cowsay lolcat
-bash: sudo: command not found
-```
-
-Whoops!
-
-Singularity complains that it can't find the `sudo` command.  But even if you try to install `sudo` or change to root using `su`, you will find it impossible to elevate your privileges within the container.
-
-Once again, this is an important concept in Singularity.  If you enter a container without root privileges, you are unable to obtain root privileges within the container.  This insurance against privilege escalation is the reason that you will find Singularity installed in so many HPC environments.
-
-Let's exit the container and re-enter as root.
+> hellompi.def
 
 ```bash
-Singularity lolcow:~> exit
-sudo singularity shell --writable lolcow
-```
-
-Now we are the root user inside the container. Note also the addition of the `--writable` option.  This option allows us to modify the container.  The changes will actually be saved into the container and will persist across uses.
-
-Let's try installing some software again.
-
-```bash
-Singularity lolcow:~> apt-get update && apt-get -y install fortune cowsay lolcat
-```
-
-Now you should see the programs successfully installed.  Let's try running the demo in this new container.
-
-```bash
-Singularity lolcow:~> fortune | cowsay | lolcat
-bash: lolcat: command not found
-bash: cowsay: command not found
-bash: fortune: command not found
-```
-
-Drat! It looks like the programs were not added to our `$PATH`.  Let's add them and try again.
-
-```bash
-Singularity lolcow:~> export PATH=/usr/games:$PATH
-
-Singularity lolcow:~> fortune | cowsay | lolcat
-perl: warning: Setting locale failed.
-perl: warning: Please check that your locale settings:
-        LANGUAGE = (unset),
-        LC_ALL = (unset),
-        LANG = "en_US.UTF-8"
-    are supported and installed on your system.
-perl: warning: Falling back to the standard locale ("C").
- ________________________________________
-/ Keep emotionally active. Cater to your \
-\ favorite neurosis.                     /
- ----------------------------------------
-        \   ^__^
-         \  (oo)\_______
-            (__)\       )\/\
-                ||----w |
-                ||     ||
-```
-
-We're making progress, but we are now receiving a warning from perl.  However, before we tackle that, let's think some more about the `$PATH` variable.
-
-We changed our path in this session, but those changes will disappear as soon as we exit the container just like they will when you exit any other shell.  To make the changes permanent we should add them to the definition file and re-bootstrap the container.  We'll do that in a minute.
-
-Now back to our perl warning.  Perl is complaining that the locale is not set properly.  Basically, perl wants to know where you are and what sort of language encoding it should use.  Should you encounter this warning you can  probably fix it with the `locale-gen` command or by setting `LC_ALL=C`.  Here we'll just set the environment variable.
-
-```bash
-Singularity lolcow:~> export LC_ALL=C
-
-Singularity lolcow:~> fortune | cowsay | lolcat
- _________________________________________
-/ FORTUNE PROVIDES QUESTIONS FOR THE      \
-| GREAT ANSWERS: #19 A: To be or not to   |
-\ be. Q: What is the square root of 4b^2? /
- -----------------------------------------
-        \   ^__^
-         \  (oo)\_______
-            (__)\       )\/\
-                ||----w |
-                ||     ||
-```
-
-Great!  Things are working properly now.
-
-Although it is fine to shell into your Singularity container and make changes while you are debugging, you ultimately want all of these changes to be reflected in your recipe file.  Otherwise if you need to reproduce it from scratch you will forget all of the changes you made.
-
-Let's update our definition file with the changes we made to this container.
-
-```bash
-Singularity lolcow:~> exit
-
-nano Singularity
-```
-
-Here is what our updated definition file should look like.
-
-```bash
-BootStrap: library
-From: ubuntu:16.04
+BootStrap: docker
+From: nersc/ubuntu-mpi:14.04
 
 %post
-    apt-get -y update
-    apt-get -y install fortune cowsay lolcat
+    mkdir -p /app
+    cd /app
 
-%environment
-    export LC_ALL=C
-    export PATH=/usr/games:$PATH
+    cat <<EOF >helloworld.c
+    // Hello World MPI app
+    #include <mpi.h>
+    #include <stdio.h>
 
-%runscript
-    fortune | cowsay | lolcat
+    int main(int argc, char** argv) {
+        int size, rank;
+        char buffer[1024];
+
+        MPI_Init(&argc, &argv);
+
+        MPI_Comm_size(MPI_COMM_WORLD, &size);
+        MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+
+        gethostname(buffer, 1024);
+
+        printf("hello from %d of %d on %s\n", rank, size, buffer);
+
+        MPI_Barrier(MPI_COMM_WORLD);
+
+        MPI_Finalize();
+        return 0;
+    }
+EOF
+
+   mpicc helloworld.c -o /app/hello
+
 ```
 
 Let's rebuild the container with the new definition file.
 
 ```bash
-sudo singularity build lolcow.sif Singularity
+sudo singularity build hellompi.sif hellompi.def
 ```
 
 Note that we changed the name of the container.  By omitting the `--sandbox` option, we are building our container in the standard Singularity squashfs file format.  We are denoting the file format with the (optional) `.sif` extension (Singularity image format).  A squashfs file is compressed and immutable making it a good choice for a production environment.
 
-Singularity stores a lot of [useful metadata](https://www.sylabs.io/guides/3.0/user-guide/environment_and_metadata.html).  For instance, if you want to see the recipe file that was used to create the container you can use the `inspect` command like so:
+Singularity stores a lot of [useful metadata](https://www.sylabs.io/guides/3.4/user-guide/environment_and_metadata.html).  For instance, if you want to see the recipe file that was used to create the container you can use the `inspect` command like so:
 
 ```bash
-$ singularity inspect --deffile lolcow.sif
-BootStrap: library
-From: ubuntu:latest
+$ singularity inspect --deffile hellompi.sif
+BootStrap: docker
+From: nersc/ubuntu-mpi:14.04
 
 %post
-    apt-get -y update
-    apt-get -y install fortune cowsay lolcat
+    mkdir -p /app
+    cd /app
 
-%environment
-    export LC_ALL=C
-    export PATH=/usr/games:$PATH
+    cat <<EOF >helloworld.c
+    // Hello World MPI app
+    #include <mpi.h>
+    #include <stdio.h>
 
-%runscript
-    fortune | cowsay | lolcat
+    int main(int argc, char** argv) {
+        int size, rank;
+        char buffer[1024];
+
+        MPI_Init(&argc, &argv);
+
+        MPI_Comm_size(MPI_COMM_WORLD, &size);
+        MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+
+        gethostname(buffer, 1024);
+
+        printf("hello from %d of %d on %s\n", rank, size, buffer);
+
+        MPI_Barrier(MPI_COMM_WORLD);
+
+        MPI_Finalize();
+        return 0;
+    }
+EOF
+
+   mpicc helloworld.c -o /app/hello
 ```
 
-### Blurring the line between the container and the host system
-
-Singularity does not try to isolate your container completely from the host system.  This allows you to do some interesting things.
-
-Using the exec command, we can run commands within the container from the host system.
+Now let's run our container! 
 
 ```bash
-$ singularity exec lolcow.sif cowsay 'How did you get out of the container?'
- _______________________________________
-< How did you get out of the container? >
- ---------------------------------------
-        \   ^__^
-         \  (oo)\_______
-            (__)\       )\/\
-                ||----w |
-                ||     ||
+singularity exec hellompi.sif /app/hello
+hello from 0 of 1 on Eduardos-MacBook-Pro.local
 ```
-
-In this example, singularity entered the container, ran the `cowsay` command, displayed the standard output on our host system terminal, and then exited.
-
-You can also use pipes and redirection to blur the lines between the container and the host system.
-
-```bash
-singularity exec lolcow.sif cowsay moo > cowsaid
-
-$ cat cowsaid
- _____
-< moo >
- -----
-        \   ^__^
-         \  (oo)\_______
-            (__)\       )\/\
-                ||----w |
-                ||     ||
-```
-
-We created a file called `cowsaid` in the current working directory with the output of a command that was executed within the container.
-
-We can also pipe things _into_ the container.
-
-```bash
-$ cat cowsaid | singularity exec lolcow.sif cowsay -n
- ______________________________
-/  _____                       \
-| < moo >                      |
-|  -----                       |
-|         \   ^__^             |
-|          \  (oo)\_______     |
-|             (__)\       )\/\ |
-|                 ||----w |    |
-\                 ||     ||    /
- ------------------------------
-        \   ^__^
-         \  (oo)\_______
-            (__)\       )\/\
-                ||----w |
-                ||     ||
-```
-
-We've created a meta-cow (a cow that talks about cows). :stuck_out_tongue_winking_eye:
