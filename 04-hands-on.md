@@ -139,9 +139,9 @@ Data integrity checked, authentic and signed by:
      eduardo arango (oss all the things) <eduardo@sylabs.io>, KeyID XXXXXXXXXXXXXXXX
 ```
 
-That's my cow!
+That's my container image!
 
-But now... how can I verify my cow if I take it out from my herd, and take it to a local fair, I need to also bring my key pairs!, with `singularity keys push` , Upload an OpenPGP public key to a key server.
+But now... how can I verify my image if I take it out from my trusted PC, and take it to a friends PC, I need to also bring my key pairs!, with `singularity keys push` , Upload an OpenPGP public key to a key server.
 
 ```bash
 eduardo@linux> singularity keys push XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
