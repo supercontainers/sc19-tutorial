@@ -1,6 +1,6 @@
 # Sylabs cloud library
 
-In this sections we will build learn how to push our `lolcow.sif` image into the sylabs library, then to pull it from a different host, and how can we add security verification to those steps by signing our image with a PGP protocol.
+In this sections we will build learn how to push our `hellompi.sif` image into the sylabs library, then to pull it from a different host, and how can we add security verification to those steps by signing our image with a PGP protocol.
 
 Also we will learn how to use the sylabs cloud builder to build our image without root privileges.
 
@@ -17,14 +17,14 @@ Now that we have an account in the container library, and the token file set, le
 The Singularity push command allows you to upload your sif image to a library of your choosing.
 
 ```bash
-eduardo@linux> singularity push lolcow.sif library://sylabsed/examples/lolcow:latest
-INFO:    Now uploading lolcow.sif to the library
+eduardo@linux> singularity push hellompi.sif library://sylabsed/examples/hellompi:latest
+INFO:    Now uploading hellompi.sif to the library
  139.66 MiB / 139.66 MiB [=================================================================================================================================================================] 100.00% 2.75 MiB/s 50s
 INFO:    Setting tag latest
 WARNING: latest replaces an existing tag
 ```
 
-The warning is due the user `syalbsed` (aka me) already had a lolcow tagged as latest, so it must be replaced to the "new" image.
+The warning is due the user `syalbsed` (aka me) already had a hellompi tagged as latest, so it must be replaced to the "new" image.
 
 > pull
 
@@ -39,16 +39,16 @@ The 'pull' command allows you to download or build a container from a given URI.
 
 This tutorial focuses on the Sylabs Cloud library, so we will use the library URI to retrieve our image.
 
-My `lolcow` image is at <https://cloud.sylabs.io/library/_container/5b9e91c694feb900016ea40b> , you can go there to download the image from a UI environment or via CLI
+My `hellompi` image is at <https://cloud.sylabs.io/library/_container/5b9e91c694feb900016ea40b> , you can go there to download the image from a UI environment or via CLI
 
 ```bash
 # Pull with Singularity
-$ singularity pull <name.sif> library://sylabsed/examples/lolcow:latest
+$ singularity pull <name.sif> library://sylabsed/examples/hellompi:latest
 # Pull by unique ID (reproducible even if tags change)
-$ singularity pull  <name.sif> library://sylabsed/examples/lolcow:sha256.699eccab2e5c31043f540a9d5fbd3c8dc105e7355bbb7b855697aa223f5b71d0
+$ singularity pull  <name.sif> library://sylabsed/examples/hellompi:sha256.699eccab2e5c31043f540a9d5fbd3c8dc105e7355bbb7b855697aa223f5b71d0
 ```
 
-**note** if you don't set a name `<name.sif>` the command `singularity pull` will by default set the image name based on the image name and tag name, in this case will be `lolcow_latest.sif`
+**note** if you don't set a name `<name.sif>` the command `singularity pull` will by default set the image name based on the image name and tag name, in this case will be `hellompi_latest.sif`
 
 Now you know how to `push/pull` your SIF images! now let's make sure we are pulling the same image, our just add a security step to our workflow
 
@@ -59,7 +59,7 @@ So, what if I don't have root privileges on my host?
 For this concern, Sylabs has developed a Remote Build Service, first make sure you have a Sylabs cloud token - get one here. Save it to ~/.singularity/sylabs-token, and then build using the --remote flag:
 
 ```bash
-eduardo@linux> singularity build --remote lolcow.sif lolcow.def
+eduardo@linux> singularity build --remote hellompi.sif hellompi.def
 searching for available build agent.........INFO:    Starting build...
 Getting image source signatures
 Copying blob sha256:dca7be20e546564ad2c985dae3c8b0a259454f5637e98b59a3ca6509432ccd01
@@ -124,17 +124,17 @@ Now we have a keypair, now let's use this keys to sign our cow, so we can tell o
 The sign command allows a user to create a cryptographic signature on either a single data object or a list of data objects within the same SIF group. By default without parameters, the command searches for the primary partition and creates a verification block that is then added to the SIF container file.
 
 ```bash
-eduardo@linux> singularity sign lolcow.sif
-Signing image: lolcow.sif
+eduardo@linux> singularity sign hellompi.sif
+Signing image: hellompi.sif
 Enter key passphrase:
-Signature created and applied to lolcow.sif
+Signature created and applied to hellompi.sif
 ```
 
 Now we are going to use the `verify` comand. The verify command allows a user to verify cryptographic signatures on SIF container files. There may be multiple signatures for data objects and multiple data objects signed. By default the command searches for the primary partition signature. If found, a list of all verification blocks applied on the primary partition is gathered so that data integrity (hashing) and signature verification is done for all those blocks.
 
 ```bash
-eduardo@linux> singularity verify lolcow.sif
-Verifying image: lolcow.sif
+eduardo@linux> singularity verify hellompi.sif
+Verifying image: hellompi.sif
 Data integrity checked, authentic and signed by:
      eduardo arango (oss all the things) <eduardo@sylabs.io>, KeyID XXXXXXXXXXXXXXXX
 ```
