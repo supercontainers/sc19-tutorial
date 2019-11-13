@@ -4,11 +4,19 @@ In the second hour we will build the preceding container from scratch.
 
 Simply typing `singularity` will give you an summary of all the commands you can use. Typing `singularity help <command>` will give you more detailed information about running an individual command.
 
+## The Singularity Image Format (SIF)
+
+[SIF](https://github.com/sylabs/sif) is an open source implementation of the Singularity Container Image Format
+that makes it easy to create complete and encapsulated container enviroments
+stored in a single file.
+
+![SIF Image](images/sif.png)
+
 ## Building a basic container
 
-To build a singularity container, you must use the `build` command.  The `build` command installs an OS, sets up your container's environment and installs the apps you need.  To use the `build` command, we need a **recipe file** (also called a definition file). A Singularity recipe file is a set of instructions telling Singularity what software to install in the container.
+To build a SIF, you must use the `singularity build` command.  The `build` command installs an OS, sets up your container's environment and performs the actions stipulated on the definition file.  To use the `build` command, we need a **recipe file** (also called a definition file). A Singularity recipe file is a set of instructions telling Singularity what software to install in the container.
 
-The Singularity source code contains several example definition files in the `/examples` subdirectory.  Let's copy the ubuntu example to our home directory and inspect it.
+The Singularity source code contains several example definition files in the `/examples` subdirectory.  For more documentation about the singularity definition file you can go [here](https://sylabs.io/guides/3.4/user-guide/definition_files.html)
 
 **Note:** You need to build containers on a file system where the sudo command can write files as root. This may not work in an HPC cluster setting if your home directory resides on a shared file server. If that's the case you may have to to `cd` to a local hard disk such as `/tmp`.
 
