@@ -132,6 +132,8 @@ EOF
 
    mpicc helloworld.c -o /sc19-tutorial/hello
 
+$runscript
+    /sc19-tutorial/hello $@
 ```
 
 Let's rebuild the container with the new definition file.
@@ -179,11 +181,14 @@ From: nersc/ubuntu-mpi:14.04
 EOF
 
    mpicc helloworld.c -o /sc19-tutorial/hello
+
+$runscript
+    /sc19-tutorial/hello $@
 ```
 
 Now let's run our container! 
 
 ```bash
-singularity exec hellompi.sif /sc19-tutorial/hello
+singularity run hellompi.sif
 hello from 0 of 1 on Eduardos-MacBook-Pro.local
 ```
