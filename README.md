@@ -41,7 +41,7 @@ This tutorial is supported by the Amazon AWS Machine Learning Research Awards. E
 
 After the tutorial, you can boot our tutorial image yourself on Amazon EC2 to run through the tutorial again. We recommend you use your own EC2 key and change the password.
 
-US-West-Oregon: ami-015dd4732dbcdbf3f
+US-West-Oregon: ami-0fe12765123c6a840 
 
 
 ### Optional Prerequisites
@@ -76,7 +76,7 @@ We have also created a Slack Team for this.  The invitation link is [here](https
 
 15:30 – 16:00 [Running an HPC app on the E4S container](slides/E4S_SC19.pdf) (Shende)
 
-16:00 - 16:30 [How to build a Singularity container image](/03-hands-on.md)(Arango)
+16:00 - 16:30 [How to build a Singularity container image](/03-hands-on.md) (Arango)
 
 16:30 - 16:50 [Running Singularity on a supercomputer & adv features](/04-hands-on.md) (Arango)
 

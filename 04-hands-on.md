@@ -1,18 +1,84 @@
-# Sylabs cloud library
+# Sylabs cloud
 
-In this sections we will build learn how to push our `hellompi.sif` image into the sylabs library, then to pull it from a different host, and how can we add security verification to those steps by signing our image with a PGP protocol.
+In this sections we will build learn how to push our `hellompi.sif` image into the sylabs library, then to pull it from a different host, and how can we add trust by signing our image with a PGP protocol and store my public keys in the cloud.
 
 Also we will learn how to use the sylabs cloud builder to build our image without root privileges.
 
-## The container library
+## Keystore
 
-On 2018 Sylabs launched the Container Library, a comfortable home for SIF basded containers. Available as a cloud service, or for on-prem deployment, the Library will be available to manage, store and share containers. The cloud service portion will offer common Linux distributions, programming languages and AI frameworks, which will be updated regularly. A clear web interface and simple command-line syntax will let you search across containers and `singularity pull` them down to your system.
+On 2018 Sylabs launched the a suite of cloud services, a comfortable home for SIF based containers.
 
 but first we need to go to [Sylabs Cloud](https://cloud.sylabs.io/library) and create a login user, then create a token file and store it under `$HOME/.singularity/sylabs-token`, as default. (you can always store it in a prefered path and use the `-t/--tokenfile` flag to redirect to a new path, or set the token as an env var `SYLABS-TOKEN=A_VERY_LONG_TOKEN`)
 
-> push
+The Sylabs [Keystore](https://cloud.sylabs.io/keystore) offers a way to easily search, visualize and share SIF signing keys, so that you can verify images downloaded from the Container Library, and allow others to verify images you create.
 
-Now that we have an account in the container library, and the token file set, let's push our cow into the clouds!
+Firsy we need to create a set of keys!
+
+The 'keys' command  allows you to manage local OpenPGP key stores by creating a new store and new keys pairs. You can also list available keys from the default store. Finally, the keys command offers subcommands to communicate with an HKP key server to fetch and upload public keys.
+
+```bash
+eduardo@linux> singularity keys list
+Public key listing (/home/eduardo/.singularity/sypgp/pgp-public):
+
+```
+
+Here we can see that I currently don't have any keys on my host.
+
+```bash
+eduardo@linux> singularity keys newpair
+Enter your name (e.g., John Doe) : eduardo arango
+Enter your email address (e.g., john.doe@example.com) : eduardo@sylabs.io
+Enter optional comment (e.g., development keys) : oss all the things
+Generating Entity and OpenPGP Key Pair... Done
+Enter encryption passphrase :
+eduardo@linux> singularity keys list
+Public key listing (/home/eduardo/.singularity/sypgp/pgp-public):
+
+0) U: eduardo arango (oss all the things) <eduardo@sylabs.io>
+   C: 2019-01-21 12:14:12 -0500 -05
+   F: XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+   L: 4096
+   --------
+```
+
+Now we have a keypair, now let's use this keys to sign our cow, so we can tell our cow from the herd, with the `singularity sign` command.
+
+The sign command allows a user to create a cryptographic signature on either a single data object or a list of data objects within the same SIF group. By default without parameters, the command searches for the primary partition and creates a verification block that is then added to the SIF container file.
+
+```bash
+eduardo@linux> singularity sign hellompi.sif
+Signing image: hellompi.sif
+Enter key passphrase:
+Signature created and applied to hellompi.sif
+```
+
+Now we are going to use the `verify` comand. The verify command allows a user to verify cryptographic signatures on SIF container files. There may be multiple signatures for data objects and multiple data objects signed. By default the command searches for the primary partition signature. If found, a list of all verification blocks applied on the primary partition is gathered so that data integrity (hashing) and signature verification is done for all those blocks.
+
+```bash
+eduardo@linux> singularity verify hellompi.sif
+Verifying image: hellompi.sif
+Data integrity checked, authentic and signed by:
+     eduardo arango (oss all the things) <eduardo@sylabs.io>, KeyID XXXXXXXXXXXXXXXX
+```
+
+That's my container image!
+
+But now... how can I verify my image if I take it out from my trusted PC, and take it to a friends PC, I need to also bring my key pairs!, with `singularity keys push` , Upload an OpenPGP public key to a key server.
+
+```bash
+eduardo@linux> singularity keys push XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+public key `XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX' pushed to server successfully
+```
+
+Now I can go to the [Keystore](https://cloud.sylabs.io/keystore) and check that my key pair is there, and so I can pull it from a different host (with my Sylabs login credentials) and verify my image.
+
+## The container library
+
+Available as a cloud service, or for on-prem deployment, the sif Library help users to manage, store and share containers. The cloud service portion will offer common Linux distributions, programming languages and AI frameworks, which will be updated regularly. A clear web interface and simple command-line syntax will let you search across containers and `singularity pull` them down to your system.
+
+Now that we have an account at sylabs cloud, and the token file set, let's push our SIF into the clouds!
+
+> push
 
 The Singularity push command allows you to upload your sif image to a library of your choosing.
 
@@ -85,70 +151,6 @@ INFO:    Setting tag latest
 ```
 
 Now you have you image, and is also stored in the cloud library, in case you need to re-used it for the future.
-
-## Keystore
-
-The Sylabs [Keystore](https://cloud.sylabs.io/keystore) offers a way to easily search, visualize and share SIF signing keys, so that you can verify images downloaded from the Container Library, and allow others to verify images you create.
-
-Firsy we need to create a set of keys!
-
-The 'keys' command  allows you to manage local OpenPGP key stores by creating a new store and new keys pairs. You can also list available keys from the default store. Finally, the keys command offers subcommands to communicate with an HKP key server to fetch and upload public keys.
-
-```bash
-eduardo@linux> singularity keys list
-Public key listing (/home/eduardo/.singularity/sypgp/pgp-public):
-
-```
-
-Here we can see that I currently don't have any keys on my host.
-
-```bash
-eduardo@linux> singularity keys newpair
-Enter your name (e.g., John Doe) : eduardo arango
-Enter your email address (e.g., john.doe@example.com) : eduardo@sylabs.io
-Enter optional comment (e.g., development keys) : oss all the things
-Generating Entity and OpenPGP Key Pair... Done
-Enter encryption passphrase :
-eduardo@linux> singularity keys list
-Public key listing (/home/eduardo/.singularity/sypgp/pgp-public):
-
-0) U: eduardo arango (oss all the things) <eduardo@sylabs.io>
-   C: 2019-01-21 12:14:12 -0500 -05
-   F: XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-   L: 4096
-   --------
-```
-
-Now we have a keypair, now let's use this keys to sign our cow, so we can tell our cow from the herd, with the `singularity sign` command.
-
-The sign command allows a user to create a cryptographic signature on either a single data object or a list of data objects within the same SIF group. By default without parameters, the command searches for the primary partition and creates a verification block that is then added to the SIF container file.
-
-```bash
-eduardo@linux> singularity sign hellompi.sif
-Signing image: hellompi.sif
-Enter key passphrase:
-Signature created and applied to hellompi.sif
-```
-
-Now we are going to use the `verify` comand. The verify command allows a user to verify cryptographic signatures on SIF container files. There may be multiple signatures for data objects and multiple data objects signed. By default the command searches for the primary partition signature. If found, a list of all verification blocks applied on the primary partition is gathered so that data integrity (hashing) and signature verification is done for all those blocks.
-
-```bash
-eduardo@linux> singularity verify hellompi.sif
-Verifying image: hellompi.sif
-Data integrity checked, authentic and signed by:
-     eduardo arango (oss all the things) <eduardo@sylabs.io>, KeyID XXXXXXXXXXXXXXXX
-```
-
-That's my container image!
-
-But now... how can I verify my image if I take it out from my trusted PC, and take it to a friends PC, I need to also bring my key pairs!, with `singularity keys push` , Upload an OpenPGP public key to a key server.
-
-```bash
-eduardo@linux> singularity keys push XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-public key `XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX' pushed to server successfully
-```
-
-Now I can go to the [Keystore](https://cloud.sylabs.io/keystore) and check that my key pair is there, and so I can pull it from a different host (with my Sylabs login credentials) and verify my image.
 
 ### Resources
 
