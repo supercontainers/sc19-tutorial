@@ -41,7 +41,7 @@ This tutorial is supported by the Amazon AWS Machine Learning Research Awards. E
 
 After the tutorial, you can boot our tutorial image yourself on Amazon EC2 to run through the tutorial again. We recommend you use your own EC2 key and change the password.
 
-US-West-Oregon: ami-015dd4732dbcdbf3f
+US-West-Oregon: ami-0fe12765123c6a840 
 
 
 ### Optional Prerequisites
