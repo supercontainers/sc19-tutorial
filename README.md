@@ -28,8 +28,11 @@ Keywords: Containerized HPC, System Software and Runtime Systems, Scientific Sof
 ## EC2 Login
 
 hostname: tutXX.supercontainers.org
+
 user: tutorial
+
 password: HPCLinux12!
+
 
 
 ## Abstract
