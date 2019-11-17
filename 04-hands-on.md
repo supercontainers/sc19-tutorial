@@ -6,7 +6,7 @@ Also we will learn how to use the sylabs cloud builder to build our image withou
 
 ## Remote Login
 
-first make sure you have a Sylabs cloud token - get one here. Save it to ~/.singularity/sylabs-token
+first make sure you have a Sylabs cloud token - get one [here](https://cloud.sylabs.io/home). Save it to ~/.singularity/sylabs-token
 
 List and Login to Remotes
 
