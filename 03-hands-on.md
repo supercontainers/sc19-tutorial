@@ -1,4 +1,4 @@
-# Building and Running Containers
+/# Building and Running Containers
 
 In the third hour we will build the preceding container from scratch.
 
@@ -172,7 +172,7 @@ EOF
 
    mpicc helloworld.c -o /sc19-tutorial/hello
 
-$runscript
+%runscript
     /sc19-tutorial/hello $@
 ```
 
@@ -222,7 +222,7 @@ EOF
 
    mpicc helloworld.c -o /sc19-tutorial/hello
 
-$runscript
+%runscript
     /sc19-tutorial/hello $@
 ```
 
