@@ -97,7 +97,8 @@ salloc -N 2 -C haswell -q interactive --reservation sc19cont --image <mydockerid
 # Wait for prepare_compilation_report
 # Cori has 32 physical cores per node with 2 hyper-threads per core.
 # So you can run up to 64 tasks per node.
-srun -N 2 -n 128 shifter /app/hello
+# To get MPI support with this image version you need to specify a shifter module
+srun -N 2 -n 128 shifter --module=mpich-cle6 /app/hello
 exit
 ```
 
