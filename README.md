@@ -25,6 +25,13 @@ Topic Area: Programming Models & Systems Software
 
 Keywords: Containerized HPC, System Software and Runtime Systems, Scientific Software Development, DevOps
 
+## EC2 Login
+
+hostname: tutXX.supercontainers.org
+user: tutorial
+password: HPCLinux12!
+
+
 ## Abstract
 
 Container computing has revolutionized the way applications are developed and delivered. It offers opportunities that never existed before for significantly improving efficiency of scientific workflows and easily moving these workflows from the laptop to the supercomputer. Tools like Docker, Shifter, Singularity and Charliecloud enable a new paradigm for scientific and technical computing. However, to fully unlock its potential, users and administrators need to understand how to utilize these new approaches. This tutorial will introduce attendees to the basics of creating container images, explain best practices, and cover more advanced topics such as creating images to be run on HPC platforms using various container runtimes. The tutorial will also explain how research scientists can utilize container-based computing to accelerate their research and how these tools can boost the impact of their research by enabling better reproducibility and sharing of their scientific process without compromising security. 
