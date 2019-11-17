@@ -12,9 +12,49 @@ stored in a single file.
 
 ![SIF Image](images/sif.png)
 
+To build a SIF, you must use the `singularity build` command.  The `build` command installs an OS, sets up your container's environment and performs the actions stipulated on the definition file.  To use the `build` command, we need a **recipe file** (also called a definition file). A Singularity recipe file is a set of instructions telling Singularity what software to install in the container.
+
 ## Building a basic container
 
-To build a SIF, you must use the `singularity build` command.  The `build` command installs an OS, sets up your container's environment and performs the actions stipulated on the definition file.  To use the `build` command, we need a **recipe file** (also called a definition file). A Singularity recipe file is a set of instructions telling Singularity what software to install in the container.
+### Building from a container registry
+
+The build command accepts a target as input and produces a container as output.
+
+The target defines the method that build uses to create the container. It can be one of the following:
+
+> URI beginning with library:// to build from the Container Library
+> URI beginning with docker:// to build from Docker Hub
+> URI beginning with shub:// to build from Singularity Hub
+> path to a existing container on your local machine
+> path to a directory to build from a sandbox
+> path to a Singularity definition file
+
+build can produce containers in two different formats that can be specified as follows.
+
+> compressed read-only Singularity Image File (SIF) format suitable for production (default)
+> writable (ch)root directory called a sandbox for interactive development ( --sandbox option)
+
+Because build can accept an existing container as a target and create a container in either supported format you can convert existing containers from one format to another.
+
+**Downloading an existing container from the Container Library**
+
+You can use the build command to download a container from the Container Library.
+
+```bash
+singularity build lolcow.sif library://sylabs-jms/testing/lolcow
+```
+
+The first argument (lolcow.sif) specifies a path and name for your container. The second argument (library://sylabs-jms/testing/lolcow) gives the Container Library URI from which to download. By default the container will be converted to a compressed, read-only SIF. If you want your container in a writable format use the --sandbox option.
+
+**Downloading an existing container from Docker Hub**
+
+You can use build to download layers from Docker Hub and assemble them into Singularity containers.
+
+```bash
+singularity build nersc_ubuntu.sif docker://nersc/ubuntu-mpi:14.04
+```
+
+### Building from a recipe file
 
 The Singularity source code contains several example definition files in the `/examples` subdirectory.  For more documentation about the singularity definition file you can go [here](https://sylabs.io/guides/3.4/user-guide/definition_files.html)
 
