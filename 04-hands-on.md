@@ -4,6 +4,47 @@ In this sections we will build learn how to push our `hellompi.sif` image into t
 
 Also we will learn how to use the sylabs cloud builder to build our image without root privileges.
 
+## Remote Login
+
+first make sure you have a Sylabs cloud token - get one here. Save it to ~/.singularity/sylabs-token
+
+List and Login to Remotes
+
+To list existing remote endpoints, run this:
+
+```bash
+singularity remote list
+
+NAME           URI              GLOBAL
+[SylabsCloud]  cloud.sylabs.io  YES
+```
+
+The [...] brackets around the name SylabsCloud show that this is the current default remote endpoint.
+
+To login to a remote, for the first time or if your token expires or was revoked:
+
+```bash
+singularity remote login
+
+# Login to another remote endpoint
+singularity remote login <remote_name>
+
+# example...
+$ singularity remote login SylabsCloud
+singularity remote login SylabsCloud
+INFO:    Authenticating with remote: SylabsCloud
+Generate an API Key at https://cloud.sylabs.io/auth/tokens, and paste here:
+API Key:
+INFO:    API Key Verified!
+
+# or with the token as a string
+$ singularity remote login --tokenfile <login-token-string> SylabsCloud
+INFO:    Authenticating with remote: SylabsCloud
+Generate an API Key at https://cloud.sylabs.io/auth/tokens, and paste here:
+API Key:
+INFO:    API Key Verified!
+```
+
 ## Keystore
 
 On 2018 Sylabs launched the a suite of cloud services, a comfortable home for SIF based containers.
@@ -122,7 +163,7 @@ Now you know how to `push/pull` your SIF images! now let's make sure we are pull
 
 So, what if I don't have root privileges on my host?
 
-For this concern, Sylabs has developed a Remote Build Service, first make sure you have a Sylabs cloud token - get one here. Save it to ~/.singularity/sylabs-token, and then build using the --remote flag:
+For this concern, Sylabs has developed a Remote Build Service, that can be leveraged from the command line by using the --remote flag:
 
 ```bash
 eduardo@linux> singularity build --remote hellompi.sif hellompi.def
