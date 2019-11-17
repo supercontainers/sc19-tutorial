@@ -18,14 +18,12 @@ shifterimg pull ubuntu:14.04
 shifterimg pull scanon/shanetest:latest
 ```
 
-## Running an image interactively
+## Running a container interactively
 
-Use salloc and shifter to test the image.
+Use shifter to start a container using the example image or your test image.
 
 ```bash
-salloc -N 1 -C haswell -q interactive --reservation sc19cont --image ubuntu:14.04
-... wait for prompt ...
-shifter bash
+shifter --image=ubuntu:14.04 bash
 ```
 
 You should be able to browse inside the image and confirm that it matches what you pushed to dockerhub earlier.
@@ -35,6 +33,22 @@ lsb_release -a
 ```
 
 Once you are done exploring, exit out.
+
+```bash
+$ exit
+```
+
+## Running an image interactively on a batch node
+
+Use SLURM salloc and shifter to use the image on a batch node.
+
+```bash
+salloc -N 1 -C haswell -q interactive --reservation sc19cont --image ubuntu:14.04
+... wait for prompt ...
+shifter bash
+```
+
+Once you are done exploring, exit out and exit from the batch node to free it up.
 
 ```bash
 $ exit
