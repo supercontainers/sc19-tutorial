@@ -1,6 +1,6 @@
 # Building and Running Containers
 
-In the second hour we will build the preceding container from scratch.
+In the third hour we will build the preceding container from scratch.
 
 Simply typing `singularity` will give you an summary of all the commands you can use. Typing `singularity help <command>` will give you more detailed information about running an individual command.
 
